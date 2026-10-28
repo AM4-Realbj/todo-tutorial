@@ -14,10 +14,18 @@ import { TodoCategoryFilter } from "@/components/todo-category-filter";
 import { TodoSort } from "@/components/todo-sort";
 import { TodoSearch } from "@/components/todo-search";
 import { TodoItem } from "@/components/todo-item";
+import { TodoFooter } from "@/components/todo-footer";
 
 export function TodoList() {
-  const { todos, loaded, addTodo, toggleTodo, deleteTodo, editTodo } =
-    useTodos();
+  const {
+    todos,
+    loaded,
+    addTodo,
+    toggleTodo,
+    deleteTodo,
+    editTodo,
+    clearCompleted,
+  } = useTodos();
   const [filter, setFilter] = useState<TodoFilterValue>("all");
   const [categoryFilter, setCategoryFilter] = useState<CategoryFilter>("all");
   const [sortBy, setSortBy] = useState<SortBy>("created");
@@ -34,6 +42,8 @@ export function TodoList() {
     )
     .filter((todo) => matchesSearch(todo, query));
   const visibleTodos = sortTodos(filteredTodos, sortBy);
+  const completedCount = todos.filter((todo) => todo.completed).length;
+  const activeCount = todos.length - completedCount;
 
   return (
     <div className="flex flex-col gap-4">
@@ -64,6 +74,14 @@ export function TodoList() {
             />
           ))}
         </ul>
+      )}
+
+      {loaded && todos.length > 0 && (
+        <TodoFooter
+          activeCount={activeCount}
+          completedCount={completedCount}
+          onClearCompleted={clearCompleted}
+        />
       )}
     </div>
   );

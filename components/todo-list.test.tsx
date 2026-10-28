@@ -393,3 +393,22 @@ describe("Todo 카테고리별 필터", () => {
     expect(screen.getAllByRole("listitem")).toHaveLength(3);
   });
 });
+
+describe("TodoList 완료 항목 삭제", () => {
+  it("남은 개수를 표시하고 완료 항목 삭제 버튼으로 완료 항목만 제거한다", async () => {
+    const user = userEvent.setup();
+    render(<TodoList />);
+
+    await seedFiveTodos(user);
+
+    expect(screen.getByText("남은 할 일 3개")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "완료 항목 삭제 (2)" }));
+
+    expect(screen.getAllByRole("checkbox")).toHaveLength(3);
+    expect(screen.getByText("남은 할 일 3개")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "완료 항목 삭제 (0)" })
+    ).toBeDisabled();
+  });
+});
