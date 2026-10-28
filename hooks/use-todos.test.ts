@@ -167,3 +167,24 @@ describe("useTodos 손상 데이터 보호", () => {
     });
   });
 });
+
+describe("useTodos 완료 항목 삭제", () => {
+  it("clearCompleted는 완료된 항목만 삭제하고 미완료 항목은 유지한다", () => {
+    const { result } = renderHook(() => useTodos());
+
+    act(() => {
+      result.current.addTodo("할일1");
+      result.current.addTodo("할일2");
+      result.current.addTodo("할일3");
+    });
+    act(() => {
+      result.current.toggleTodo(result.current.todos[0].id);
+      result.current.toggleTodo(result.current.todos[1].id);
+    });
+    act(() => {
+      result.current.clearCompleted();
+    });
+
+    expect(result.current.todos.map((todo) => todo.text)).toEqual(["할일1"]);
+  });
+});

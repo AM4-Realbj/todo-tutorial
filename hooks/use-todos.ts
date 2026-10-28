@@ -103,5 +103,17 @@ export function useTodos() {
     );
   }
 
-  return { todos, loaded, addTodo, toggleTodo, deleteTodo, editTodo };
+  function clearCompleted() {
+    setTodos((prev) => prev.filter((todo) => !todo.completed));
+  }
+
+  return {
+    todos,
+    loaded,
+    addTodo,
+    toggleTodo,
+    deleteTodo,
+    editTodo,
+    clearCompleted,
+  };
 }
