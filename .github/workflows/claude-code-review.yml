@@ -12,6 +12,10 @@ on:
 
 jobs:
   claude-review:
+    # 비활성화됨: CLAUDE_CODE_OAUTH_TOKEN 시크릿이 없어 매번 실패한다.
+    # 다시 켜려면 시크릿을 등록하고 아래 줄을 제거한다.
+    if: false
+
     # Optional: Filter by PR author
     # if: |
     #   github.event.pull_request.user.login == 'external-contributor' ||
